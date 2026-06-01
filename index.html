@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🔐 Vault - Password Manager</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         :root {
             --bg-deepest: #0f1117;
@@ -13,14 +18,14 @@
             --bg-card: #1e2130;
             --bg-hover: #252840;
             --bg-active: #2a2d4a;
-            --border: rgba(255,255,255,0.07);
-            --border-focus: rgba(139,92,246,0.5);
+            --border: rgba(255, 255, 255, 0.07);
+            --border-focus: rgba(139, 92, 246, 0.5);
             --text-primary: #e8e9f0;
             --text-secondary: #6b7280;
             --text-label: #9ca3af;
             --accent: #8b5cf6;
             --accent-light: #a78bfa;
-            --accent-bg: rgba(139,92,246,0.12);
+            --accent-bg: rgba(139, 92, 246, 0.12);
             --cyan: #06b6d4;
             --red: #ef4444;
             --green: #10b981;
@@ -46,6 +51,7 @@
             border-bottom: 1px solid var(--border);
             flex-shrink: 0;
         }
+
         .topbar-logo {
             font-size: 1.1rem;
             font-weight: 700;
@@ -55,7 +61,12 @@
             background-clip: text;
             letter-spacing: -0.3px;
         }
-        .topbar-actions { display: flex; gap: 0.5rem; align-items: center; }
+
+        .topbar-actions {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
 
         .btn {
             padding: 0.4rem 0.875rem;
@@ -68,12 +79,33 @@
             background: transparent;
             color: var(--text-label);
         }
-        .btn:hover { background: var(--bg-hover); color: var(--text-primary); }
-        .btn-green { color: var(--green); border-color: rgba(16,185,129,0.2); }
-        .btn-green:hover { background: rgba(16,185,129,0.1); }
-        .btn-blue { color: var(--cyan); border-color: rgba(6,182,212,0.2); }
-        .btn-blue:hover { background: rgba(6,182,212,0.1); }
-        input[type="file"] { display: none; }
+
+        .btn:hover {
+            background: var(--bg-hover);
+            color: var(--text-primary);
+        }
+
+        .btn-green {
+            color: var(--green);
+            border-color: rgba(16, 185, 129, 0.2);
+        }
+
+        .btn-green:hover {
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .btn-blue {
+            color: var(--cyan);
+            border-color: rgba(6, 182, 212, 0.2);
+        }
+
+        .btn-blue:hover {
+            background: rgba(6, 182, 212, 0.1);
+        }
+
+        input[type="file"] {
+            display: none;
+        }
 
         /* ── 3-Column Layout ── */
         .main {
@@ -92,6 +124,7 @@
             flex-direction: column;
             overflow: hidden;
         }
+
         .vault-header {
             display: flex;
             align-items: center;
@@ -100,6 +133,7 @@
             border-bottom: 1px solid var(--border);
             flex-shrink: 0;
         }
+
         .vault-header-title {
             font-size: 0.75rem;
             font-weight: 600;
@@ -107,9 +141,13 @@
             letter-spacing: 0.8px;
             color: var(--text-secondary);
         }
+
         .vault-add-btn {
-            width: 22px; height: 22px;
-            display: flex; align-items: center; justify-content: center;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             border-radius: 0.3rem;
             border: 1px solid var(--border);
             background: transparent;
@@ -118,15 +156,27 @@
             cursor: pointer;
             transition: all 0.15s;
         }
-        .vault-add-btn:hover { background: var(--bg-hover); color: var(--accent-light); border-color: var(--accent); }
+
+        .vault-add-btn:hover {
+            background: var(--bg-hover);
+            color: var(--accent-light);
+            border-color: var(--accent);
+        }
 
         .vault-list {
             flex: 1;
             overflow-y: auto;
             padding: 0.5rem 0;
         }
-        .vault-list::-webkit-scrollbar { width: 4px; }
-        .vault-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+
+        .vault-list::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .vault-list::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
 
         .vault-item {
             display: flex;
@@ -138,22 +188,42 @@
             border-radius: 0;
             position: relative;
         }
-        .vault-item:hover { background: var(--bg-hover); }
-        .vault-item.active { background: var(--bg-active); }
-        .vault-item.active .vault-item-name { color: var(--accent-light); }
+
+        .vault-item:hover {
+            background: var(--bg-hover);
+        }
+
+        .vault-item.active {
+            background: var(--bg-active);
+        }
+
+        .vault-item.active .vault-item-name {
+            color: var(--accent-light);
+        }
 
         .vault-item-icon {
-            width: 28px; height: 28px;
+            width: 28px;
+            height: 28px;
             border-radius: 0.4rem;
-            display: flex; align-items: center; justify-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 0.85rem;
             flex-shrink: 0;
             background: var(--bg-card);
             border: 1px solid var(--border);
         }
-        .vault-item-icon.special { background: var(--accent-bg); border-color: rgba(139,92,246,0.25); }
 
-        .vault-item-body { flex: 1; min-width: 0; }
+        .vault-item-icon.special {
+            background: var(--accent-bg);
+            border-color: rgba(139, 92, 246, 0.25);
+        }
+
+        .vault-item-body {
+            flex: 1;
+            min-width: 0;
+        }
+
         .vault-item-name {
             font-size: 0.84rem;
             font-weight: 500;
@@ -162,6 +232,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
         .vault-item-count {
             font-size: 0.7rem;
             color: var(--text-secondary);
@@ -170,8 +241,11 @@
 
         .vault-item-menu {
             opacity: 0;
-            width: 20px; height: 20px;
-            display: flex; align-items: center; justify-content: center;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             border-radius: 0.25rem;
             background: transparent;
             border: none;
@@ -181,8 +255,15 @@
             transition: all 0.1s;
             flex-shrink: 0;
         }
-        .vault-item:hover .vault-item-menu { opacity: 1; }
-        .vault-item-menu:hover { background: var(--bg-card); color: var(--text-primary); }
+
+        .vault-item:hover .vault-item-menu {
+            opacity: 1;
+        }
+
+        .vault-item-menu:hover {
+            background: var(--bg-card);
+            color: var(--text-primary);
+        }
 
         .vault-section-sep {
             height: 1px;
@@ -200,11 +281,13 @@
             flex-direction: column;
             overflow: hidden;
         }
+
         .list-header {
             padding: 0.875rem 1rem;
             border-bottom: 1px solid var(--border);
             flex-shrink: 0;
         }
+
         .list-title {
             font-size: 0.95rem;
             font-weight: 600;
@@ -214,6 +297,7 @@
             align-items: center;
             gap: 0.5rem;
         }
+
         .list-title-count {
             font-size: 0.72rem;
             font-weight: 500;
@@ -223,7 +307,11 @@
             border-radius: 1rem;
             padding: 0.1rem 0.5rem;
         }
-        .search-wrap { position: relative; }
+
+        .search-wrap {
+            position: relative;
+        }
+
         .search-wrap input {
             width: 100%;
             padding: 0.45rem 0.75rem 0.45rem 2rem;
@@ -233,11 +321,20 @@
             color: var(--text-primary);
             font-size: 0.82rem;
         }
-        .search-wrap input:focus { outline: none; border-color: var(--border-focus); }
-        .search-wrap input::placeholder { color: var(--text-secondary); }
+
+        .search-wrap input:focus {
+            outline: none;
+            border-color: var(--border-focus);
+        }
+
+        .search-wrap input::placeholder {
+            color: var(--text-secondary);
+        }
+
         .search-icon {
             position: absolute;
-            left: 0.6rem; top: 50%;
+            left: 0.6rem;
+            top: 50%;
             transform: translateY(-50%);
             color: var(--text-secondary);
             font-size: 0.75rem;
@@ -249,8 +346,15 @@
             overflow-y: auto;
             padding: 0.5rem 0;
         }
-        .account-list::-webkit-scrollbar { width: 4px; }
-        .account-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+
+        .account-list::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .account-list::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
 
         .list-section-label {
             padding: 0.5rem 1rem 0.25rem;
@@ -268,23 +372,41 @@
             cursor: pointer;
             transition: background 0.1s;
         }
-        .account-item:hover { background: var(--bg-hover); }
-        .account-item.active { background: var(--bg-active); }
+
+        .account-item:hover {
+            background: var(--bg-hover);
+        }
+
+        .account-item.active {
+            background: var(--bg-active);
+        }
 
         .platform-icon {
-            width: 34px; height: 34px;
+            width: 34px;
+            height: 34px;
             border-radius: 0.45rem;
             flex-shrink: 0;
-            display: flex; align-items: center; justify-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-weight: 700;
             font-size: 0.85rem;
             overflow: hidden;
             background: var(--bg-card);
             border: 1px solid var(--border);
         }
-        .platform-icon img { width: 20px; height: 20px; object-fit: contain; }
 
-        .item-text { min-width: 0; flex: 1; }
+        .platform-icon img {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+        }
+
+        .item-text {
+            min-width: 0;
+            flex: 1;
+        }
+
         .item-platform {
             font-size: 0.84rem;
             font-weight: 500;
@@ -293,6 +415,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
         .item-username {
             font-size: 0.73rem;
             color: var(--text-secondary);
@@ -306,7 +429,7 @@
             margin: 0.5rem 0.875rem 0.75rem;
             padding: 0.5rem;
             background: var(--accent-bg);
-            border: 1px dashed rgba(139,92,246,0.3);
+            border: 1px dashed rgba(139, 92, 246, 0.3);
             border-radius: 0.5rem;
             color: var(--accent-light);
             font-size: 0.8rem;
@@ -315,7 +438,11 @@
             transition: all 0.15s;
             flex-shrink: 0;
         }
-        .add-btn:hover { background: rgba(139,92,246,0.2); border-style: solid; }
+
+        .add-btn:hover {
+            background: rgba(139, 92, 246, 0.2);
+            border-style: solid;
+        }
 
         /* ── Col 3: Detail ── */
         .right-panel {
@@ -325,6 +452,7 @@
             overflow: hidden;
             background: var(--bg-deepest);
         }
+
         .empty-right {
             flex: 1;
             display: flex;
@@ -334,16 +462,30 @@
             color: var(--text-secondary);
             gap: 0.75rem;
         }
-        .empty-right .icon { font-size: 3rem; opacity: 0.4; }
-        .empty-right p { font-size: 0.9rem; }
+
+        .empty-right .icon {
+            font-size: 3rem;
+            opacity: 0.4;
+        }
+
+        .empty-right p {
+            font-size: 0.9rem;
+        }
 
         .detail-view {
             flex: 1;
             overflow-y: auto;
             padding: 1.75rem 2rem;
         }
-        .detail-view::-webkit-scrollbar { width: 4px; }
-        .detail-view::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+
+        .detail-view::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .detail-view::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
 
         .detail-header {
             display: flex;
@@ -351,10 +493,14 @@
             gap: 1rem;
             margin-bottom: 0.5rem;
         }
+
         .detail-icon {
-            width: 52px; height: 52px;
+            width: 52px;
+            height: 52px;
             border-radius: 0.75rem;
-            display: flex; align-items: center; justify-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-weight: 700;
             font-size: 1.3rem;
             background: var(--bg-card);
@@ -362,9 +508,25 @@
             overflow: hidden;
             flex-shrink: 0;
         }
-        .detail-icon img { width: 32px; height: 32px; object-fit: contain; }
-        .detail-title { font-size: 1.25rem; font-weight: 600; color: var(--text-primary); }
-        .detail-subtitle { font-size: 0.78rem; color: var(--text-secondary); margin-top: 0.15rem; }
+
+        .detail-icon img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+        }
+
+        .detail-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .detail-subtitle {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            margin-top: 0.15rem;
+        }
+
         .detail-category-badge {
             display: inline-flex;
             align-items: center;
@@ -373,29 +535,53 @@
             font-size: 0.72rem;
             color: var(--accent-light);
             background: var(--accent-bg);
-            border: 1px solid rgba(139,92,246,0.2);
+            border: 1px solid rgba(139, 92, 246, 0.2);
             border-radius: 1rem;
             padding: 0.15rem 0.6rem;
             cursor: pointer;
         }
-        .detail-category-badge:hover { background: rgba(139,92,246,0.2); }
 
-        .detail-actions { margin-left: auto; display: flex; gap: 0.5rem; }
+        .detail-category-badge:hover {
+            background: rgba(139, 92, 246, 0.2);
+        }
+
+        .detail-actions {
+            margin-left: auto;
+            display: flex;
+            gap: 0.5rem;
+        }
 
         .btn-icon {
-            width: 32px; height: 32px;
+            width: 32px;
+            height: 32px;
             border-radius: 0.4rem;
             border: 1px solid var(--border);
             background: transparent;
             color: var(--text-secondary);
             cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 0.85rem;
             transition: all 0.15s;
         }
-        .btn-icon:hover { background: var(--bg-hover); color: var(--text-primary); }
-        .btn-icon.delete:hover { background: rgba(239,68,68,0.1); color: var(--red); border-color: rgba(239,68,68,0.2); }
-        .btn-icon.move:hover { background: rgba(6,182,212,0.1); color: var(--cyan); border-color: rgba(6,182,212,0.2); }
+
+        .btn-icon:hover {
+            background: var(--bg-hover);
+            color: var(--text-primary);
+        }
+
+        .btn-icon.delete:hover {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--red);
+            border-color: rgba(239, 68, 68, 0.2);
+        }
+
+        .btn-icon.move:hover {
+            background: rgba(6, 182, 212, 0.1);
+            color: var(--cyan);
+            border-color: rgba(6, 182, 212, 0.2);
+        }
 
         .detail-meta-row {
             display: flex;
@@ -415,29 +601,67 @@
             align-items: center;
             gap: 0.875rem;
         }
-        .field-icon-wrap { color: var(--accent-light); font-size: 1rem; width: 20px; flex-shrink: 0; }
-        .field-content { flex: 1; min-width: 0; }
-        .field-label { font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 0.2rem; }
+
+        .field-icon-wrap {
+            color: var(--accent-light);
+            font-size: 1rem;
+            width: 20px;
+            flex-shrink: 0;
+        }
+
+        .field-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .field-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.2rem;
+        }
+
         .field-value {
             font-size: 0.9rem;
             color: var(--text-primary);
             font-family: 'Courier New', monospace;
             word-break: break-all;
         }
-        .field-value.normal { font-family: inherit; }
-        .field-value.url { color: var(--accent-light); text-decoration: none; cursor: pointer; }
-        .field-value.url:hover { text-decoration: underline; }
-        .field-actions { display: flex; gap: 0.25rem; flex-shrink: 0; }
+
+        .field-value.normal {
+            font-family: inherit;
+        }
+
+        .field-value.url {
+            color: var(--accent-light);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .field-value.url:hover {
+            text-decoration: underline;
+        }
+
+        .field-actions {
+            display: flex;
+            gap: 0.25rem;
+            flex-shrink: 0;
+        }
 
         /* ── Modals ── */
         .modal-overlay {
-            position: fixed; inset: 0;
-            background: rgba(0,0,0,0.6);
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(4px);
-            display: flex; align-items: center; justify-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             z-index: 100;
         }
-        .modal-overlay.hidden { display: none; }
+
+        .modal-overlay.hidden {
+            display: none;
+        }
 
         .modal {
             background: var(--bg-card);
@@ -449,12 +673,32 @@
             max-height: 90vh;
             overflow-y: auto;
         }
-        .modal::-webkit-scrollbar { width: 4px; }
-        .modal::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
 
-        .modal h3 { font-size: 1rem; font-weight: 600; margin-bottom: 1.25rem; color: var(--text-primary); }
-        .modal label { display: block; font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.3rem; }
-        .modal input, .modal select {
+        .modal::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .modal::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        .modal h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1.25rem;
+            color: var(--text-primary);
+        }
+
+        .modal label {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.3rem;
+        }
+
+        .modal input,
+        .modal select {
             width: 100%;
             padding: 0.55rem 0.875rem;
             background: var(--bg-dark);
@@ -464,11 +708,28 @@
             font-size: 0.875rem;
             margin-bottom: 0.875rem;
         }
-        .modal input:focus, .modal select:focus { outline: none; border-color: var(--border-focus); }
-        .modal input::placeholder { color: var(--text-secondary); }
-        .modal select option { background: var(--bg-card); color: var(--text-primary); }
 
-        .modal-footer { display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 0.5rem; }
+        .modal input:focus,
+        .modal select:focus {
+            outline: none;
+            border-color: var(--border-focus);
+        }
+
+        .modal input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .modal select option {
+            background: var(--bg-card);
+            color: var(--text-primary);
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
 
         .btn-primary {
             padding: 0.5rem 1.25rem;
@@ -481,7 +742,11 @@
             cursor: pointer;
             transition: background 0.15s;
         }
-        .btn-primary:hover { background: #7c3aed; }
+
+        .btn-primary:hover {
+            background: #7c3aed;
+        }
+
         .btn-cancel {
             padding: 0.5rem 1rem;
             background: transparent;
@@ -491,10 +756,16 @@
             font-size: 0.875rem;
             cursor: pointer;
         }
-        .btn-cancel:hover { color: var(--text-primary); }
+
+        .btn-cancel:hover {
+            color: var(--text-primary);
+        }
 
         /* ── Move Modal ── */
-        .move-modal { width: 360px; }
+        .move-modal {
+            width: 360px;
+        }
+
         .move-option {
             display: flex;
             align-items: center;
@@ -505,19 +776,38 @@
             transition: background 0.1s;
             margin-bottom: 0.25rem;
         }
-        .move-option:hover { background: var(--bg-hover); }
-        .move-option.selected { background: var(--bg-active); }
+
+        .move-option:hover {
+            background: var(--bg-hover);
+        }
+
+        .move-option.selected {
+            background: var(--bg-active);
+        }
+
         .move-option-icon {
-            width: 30px; height: 30px;
+            width: 30px;
+            height: 30px;
             border-radius: 0.4rem;
-            display: flex; align-items: center; justify-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 0.85rem;
             background: var(--bg-card);
             border: 1px solid var(--border);
             flex-shrink: 0;
         }
-        .move-option-name { font-size: 0.875rem; color: var(--text-primary); }
-        .move-option-count { font-size: 0.72rem; color: var(--text-secondary); margin-top: 0.1rem; }
+
+        .move-option-name {
+            font-size: 0.875rem;
+            color: var(--text-primary);
+        }
+
+        .move-option-count {
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            margin-top: 0.1rem;
+        }
 
         /* ── Category context menu ── */
         .ctx-menu {
@@ -527,10 +817,14 @@
             border-radius: 0.5rem;
             padding: 0.375rem;
             min-width: 160px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
             z-index: 200;
         }
-        .ctx-menu.hidden { display: none; }
+
+        .ctx-menu.hidden {
+            display: none;
+        }
+
         .ctx-item {
             display: flex;
             align-items: center;
@@ -542,9 +836,22 @@
             color: var(--text-label);
             transition: background 0.1s;
         }
-        .ctx-item:hover { background: var(--bg-hover); color: var(--text-primary); }
-        .ctx-item.danger:hover { background: rgba(239,68,68,0.1); color: var(--red); }
-        .ctx-sep { height: 1px; background: var(--border); margin: 0.25rem 0; }
+
+        .ctx-item:hover {
+            background: var(--bg-hover);
+            color: var(--text-primary);
+        }
+
+        .ctx-item.danger:hover {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--red);
+        }
+
+        .ctx-sep {
+            height: 1px;
+            background: var(--border);
+            margin: 0.25rem 0;
+        }
 
         .empty-list {
             padding: 2rem 1rem;
@@ -554,229 +861,293 @@
         }
 
         /* color helpers for letter avatars */
-        .color-0 { background: #312e81; color: #a5b4fc; }
-        .color-1 { background: #1e3a5f; color: #7dd3fc; }
-        .color-2 { background: #14532d; color: #86efac; }
-        .color-3 { background: #431407; color: #fdba74; }
-        .color-4 { background: #4a044e; color: #f0abfc; }
-        .color-5 { background: #1c1917; color: #d6d3d1; }
+        .color-0 {
+            background: #312e81;
+            color: #a5b4fc;
+        }
+
+        .color-1 {
+            background: #1e3a5f;
+            color: #7dd3fc;
+        }
+
+        .color-2 {
+            background: #14532d;
+            color: #86efac;
+        }
+
+        .color-3 {
+            background: #431407;
+            color: #fdba74;
+        }
+
+        .color-4 {
+            background: #4a044e;
+            color: #f0abfc;
+        }
+
+        .color-5 {
+            background: #1c1917;
+            color: #d6d3d1;
+        }
 
         /* category icon colors */
-        .cat-color-0 { background: rgba(139,92,246,0.15); color: #a78bfa; border-color: rgba(139,92,246,0.2); }
-        .cat-color-1 { background: rgba(6,182,212,0.15); color: #67e8f9; border-color: rgba(6,182,212,0.2); }
-        .cat-color-2 { background: rgba(16,185,129,0.15); color: #6ee7b7; border-color: rgba(16,185,129,0.2); }
-        .cat-color-3 { background: rgba(245,158,11,0.15); color: #fcd34d; border-color: rgba(245,158,11,0.2); }
-        .cat-color-4 { background: rgba(239,68,68,0.15); color: #fca5a5; border-color: rgba(239,68,68,0.2); }
-        .cat-color-5 { background: rgba(236,72,153,0.15); color: #f9a8d4; border-color: rgba(236,72,153,0.2); }
+        .cat-color-0 {
+            background: rgba(139, 92, 246, 0.15);
+            color: #a78bfa;
+            border-color: rgba(139, 92, 246, 0.2);
+        }
+
+        .cat-color-1 {
+            background: rgba(6, 182, 212, 0.15);
+            color: #67e8f9;
+            border-color: rgba(6, 182, 212, 0.2);
+        }
+
+        .cat-color-2 {
+            background: rgba(16, 185, 129, 0.15);
+            color: #6ee7b7;
+            border-color: rgba(16, 185, 129, 0.2);
+        }
+
+        .cat-color-3 {
+            background: rgba(245, 158, 11, 0.15);
+            color: #fcd34d;
+            border-color: rgba(245, 158, 11, 0.2);
+        }
+
+        .cat-color-4 {
+            background: rgba(239, 68, 68, 0.15);
+            color: #fca5a5;
+            border-color: rgba(239, 68, 68, 0.2);
+        }
+
+        .cat-color-5 {
+            background: rgba(236, 72, 153, 0.15);
+            color: #f9a8d4;
+            border-color: rgba(236, 72, 153, 0.2);
+        }
     </style>
 </head>
+
 <body>
 
-<!-- Top Bar -->
-<div class="topbar">
-    <div class="topbar-logo">🔐 Vault</div>
-    <div class="topbar-actions">
-        <button class="btn btn-green" onclick="exportData()">📥 Export</button>
-        <label class="btn btn-blue" for="import-file">📤 Import</label>
-        <input type="file" id="import-file" accept=".json" onchange="importData(event)">
-    </div>
-</div>
-
-<!-- Main 3-column -->
-<div class="main">
-
-    <!-- Col 1: Vault/Kategori -->
-    <div class="vault-panel">
-        <div class="vault-header">
-            <span class="vault-header-title">Vault</span>
-            <button class="vault-add-btn" title="Tambah Kategori" onclick="openCatModal()">+</button>
+    <!-- Top Bar -->
+    <div class="topbar">
+        <div class="topbar-logo">🔐 Vault</div>
+        <div class="topbar-actions">
+            <button class="btn btn-green" onclick="exportData()">📥 Export</button>
+            <label class="btn btn-blue" for="import-file">📤 Import</label>
+            <input type="file" id="import-file" accept=".json" onchange="importData(event)">
         </div>
-        <div class="vault-list" id="vault-list"></div>
     </div>
 
-    <!-- Col 2: Account List -->
-    <div class="list-panel">
-        <div class="list-header">
-            <div class="list-title">
-                <span id="list-title-text">Semua Item</span>
-                <span class="list-title-count" id="list-title-count">0</span>
+    <!-- Main 3-column -->
+    <div class="main">
+
+        <!-- Col 1: Vault/Kategori -->
+        <div class="vault-panel">
+            <div class="vault-header">
+                <span class="vault-header-title">Vault</span>
+                <button class="vault-add-btn" title="Tambah Kategori" onclick="openCatModal()">+</button>
             </div>
-            <div class="search-wrap">
-                <span class="search-icon">🔍</span>
-                <input type="text" id="search-input" placeholder="Cari..." oninput="renderList()">
+            <div class="vault-list" id="vault-list"></div>
+        </div>
+
+        <!-- Col 2: Account List -->
+        <div class="list-panel">
+            <div class="list-header">
+                <div class="list-title">
+                    <span id="list-title-text">Semua Item</span>
+                    <span class="list-title-count" id="list-title-count">0</span>
+                </div>
+                <div class="search-wrap">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="search-input" placeholder="Cari..." oninput="renderList()">
+                </div>
+            </div>
+            <div class="account-list" id="account-list">
+                <div class="empty-list">Belum ada akun.</div>
+            </div>
+            <div class="add-btn" onclick="openAddModal()">＋ Tambah Akun Baru</div>
+        </div>
+
+        <!-- Col 3: Detail -->
+        <div class="right-panel">
+            <div class="empty-right" id="empty-right">
+                <div class="icon">🔑</div>
+                <p>Pilih akun untuk melihat detail</p>
+            </div>
+            <div class="detail-view" id="detail-view" style="display:none"></div>
+        </div>
+
+    </div>
+
+    <!-- Context Menu (category) -->
+    <div class="ctx-menu hidden" id="ctx-menu">
+        <div class="ctx-item" onclick="ctxRename()">✏️ Rename</div>
+        <div class="ctx-sep"></div>
+        <div class="ctx-item danger" onclick="ctxDelete()">🗑️ Hapus Kategori</div>
+    </div>
+
+    <!-- Add Account Modal -->
+    <div class="modal-overlay hidden" id="modal-overlay">
+        <div class="modal">
+            <h3 id="modal-title">Tambah Akun Baru</h3>
+            <label>Platform / Nama Layanan</label>
+            <input type="text" id="m-platform" placeholder="Gmail, GitHub, Tokopedia...">
+            <label>URL Website <span style="color:#475569">(opsional, untuk ambil logo)</span></label>
+            <input type="text" id="m-url" placeholder="https://gmail.com">
+            <label>Username / Email</label>
+            <input type="text" id="m-username" placeholder="nama@email.com">
+            <label>Password</label>
+            <input type="password" id="m-password" placeholder="Password kamu">
+            <label>Kategori</label>
+            <select id="m-category"></select>
+            <label>Catatan <span style="color:#475569">(opsional)</span></label>
+            <input type="text" id="m-note" placeholder="Catatan tambahan...">
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeModal()">Batal</button>
+                <button class="btn-primary" onclick="saveAccount()">Simpan</button>
             </div>
         </div>
-        <div class="account-list" id="account-list">
-            <div class="empty-list">Belum ada akun.</div>
-        </div>
-        <div class="add-btn" onclick="openAddModal()">＋ Tambah Akun Baru</div>
     </div>
 
-    <!-- Col 3: Detail -->
-    <div class="right-panel">
-        <div class="empty-right" id="empty-right">
-            <div class="icon">🔑</div>
-            <p>Pilih akun untuk melihat detail</p>
-        </div>
-        <div class="detail-view" id="detail-view" style="display:none"></div>
-    </div>
-
-</div>
-
-<!-- Context Menu (category) -->
-<div class="ctx-menu hidden" id="ctx-menu">
-    <div class="ctx-item" onclick="ctxRename()">✏️ Rename</div>
-    <div class="ctx-sep"></div>
-    <div class="ctx-item danger" onclick="ctxDelete()">🗑️ Hapus Kategori</div>
-</div>
-
-<!-- Add Account Modal -->
-<div class="modal-overlay hidden" id="modal-overlay">
-    <div class="modal">
-        <h3 id="modal-title">Tambah Akun Baru</h3>
-        <label>Platform / Nama Layanan</label>
-        <input type="text" id="m-platform" placeholder="Gmail, GitHub, Tokopedia...">
-        <label>URL Website <span style="color:#475569">(opsional, untuk ambil logo)</span></label>
-        <input type="text" id="m-url" placeholder="https://gmail.com">
-        <label>Username / Email</label>
-        <input type="text" id="m-username" placeholder="nama@email.com">
-        <label>Password</label>
-        <input type="password" id="m-password" placeholder="Password kamu">
-        <label>Kategori</label>
-        <select id="m-category"></select>
-        <label>Catatan <span style="color:#475569">(opsional)</span></label>
-        <input type="text" id="m-note" placeholder="Catatan tambahan...">
-        <div class="modal-footer">
-            <button class="btn-cancel" onclick="closeModal()">Batal</button>
-            <button class="btn-primary" onclick="saveAccount()">Simpan</button>
+    <!-- Edit Account Modal -->
+    <div class="modal-overlay hidden" id="edit-modal-overlay">
+        <div class="modal">
+            <h3>Edit Akun</h3>
+            <label>Platform / Nama Layanan</label>
+            <input type="text" id="e-platform" placeholder="Gmail, GitHub, Tokopedia...">
+            <label>URL Website <span style="color:#475569">(opsional)</span></label>
+            <input type="text" id="e-url" placeholder="https://gmail.com">
+            <label>Username / Email</label>
+            <input type="text" id="e-username" placeholder="nama@email.com">
+            <label>Password</label>
+            <input type="password" id="e-password" placeholder="Password">
+            <label>Catatan <span style="color:#475569">(opsional)</span></label>
+            <input type="text" id="e-note" placeholder="Catatan tambahan...">
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeEditModal()">Batal</button>
+                <button class="btn-primary" onclick="saveEdit()">Simpan</button>
+            </div>
         </div>
     </div>
-</div>
 
-<!-- Edit Account Modal -->
-<div class="modal-overlay hidden" id="edit-modal-overlay">
-    <div class="modal">
-        <h3>Edit Akun</h3>
-        <label>Platform / Nama Layanan</label>
-        <input type="text" id="e-platform" placeholder="Gmail, GitHub, Tokopedia...">
-        <label>URL Website <span style="color:#475569">(opsional)</span></label>
-        <input type="text" id="e-url" placeholder="https://gmail.com">
-        <label>Username / Email</label>
-        <input type="text" id="e-username" placeholder="nama@email.com">
-        <label>Password</label>
-        <input type="password" id="e-password" placeholder="Password">
-        <label>Catatan <span style="color:#475569">(opsional)</span></label>
-        <input type="text" id="e-note" placeholder="Catatan tambahan...">
-        <div class="modal-footer">
-            <button class="btn-cancel" onclick="closeEditModal()">Batal</button>
-            <button class="btn-primary" onclick="saveEdit()">Simpan</button>
+    <!-- Add/Rename Category Modal -->
+    <div class="modal-overlay hidden" id="cat-modal-overlay">
+        <div class="modal" style="width:340px">
+            <h3 id="cat-modal-title">Tambah Kategori</h3>
+            <label>Nama Kategori</label>
+            <input type="text" id="cat-name" placeholder="Pekerjaan, Sosial, Keuangan...">
+            <label>Ikon</label>
+            <div id="cat-icon-picker" style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.875rem;"></div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeCatModal()">Batal</button>
+                <button class="btn-primary" onclick="saveCat()">Simpan</button>
+            </div>
         </div>
     </div>
-</div>
 
-<!-- Add/Rename Category Modal -->
-<div class="modal-overlay hidden" id="cat-modal-overlay">
-    <div class="modal" style="width:340px">
-        <h3 id="cat-modal-title">Tambah Kategori</h3>
-        <label>Nama Kategori</label>
-        <input type="text" id="cat-name" placeholder="Pekerjaan, Sosial, Keuangan...">
-        <label>Ikon</label>
-        <div id="cat-icon-picker" style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.875rem;"></div>
-        <div class="modal-footer">
-            <button class="btn-cancel" onclick="closeCatModal()">Batal</button>
-            <button class="btn-primary" onclick="saveCat()">Simpan</button>
+    <!-- Move Modal -->
+    <div class="modal-overlay hidden" id="move-modal-overlay">
+        <div class="modal move-modal">
+            <h3>Pindahkan ke Kategori</h3>
+            <div id="move-options"></div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeMoveModal()">Batal</button>
+                <button class="btn-primary" onclick="confirmMove()">Pindahkan</button>
+            </div>
         </div>
     </div>
-</div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<!-- Move Modal -->
-<div class="modal-overlay hidden" id="move-modal-overlay">
-    <div class="modal move-modal">
-        <h3>Pindahkan ke Kategori</h3>
-        <div id="move-options"></div>
-        <div class="modal-footer">
-            <button class="btn-cancel" onclick="closeMoveModal()">Batal</button>
-            <button class="btn-primary" onclick="confirmMove()">Pindahkan</button>
-        </div>
-    </div>
-</div>
+    <script>
+        let db, allAccounts = [], categories = [], selectedId = null, editingId = null;
+        let activeCatId = '__all__'; // '__all__' = semua item
+        let ctxCatId = null, movingAccountId = null, moveTargetCatId = null;
+        let renamingCatId = null;
+        const CAT_ICONS = ['📁', '🏠', '💼', '🎮', '💳', '📱', '🌐', '🛒', '🏦', '✉️', '🔐', '⚙️', '🎵', '📸', '🏋️', '🎓', '☁️', '🔬'];
 
-<script>
-    let db, allAccounts = [], categories = [], selectedId = null, editingId = null;
-    let activeCatId = '__all__'; // '__all__' = semua item
-    let ctxCatId = null, movingAccountId = null, moveTargetCatId = null;
-    let renamingCatId = null;
-    const CAT_ICONS = ['📁','🏠','💼','🎮','💳','📱','🌐','🛒','🏦','✉️','🔐','⚙️','🎵','📸','🏋️','🎓','☁️','🔬'];
+        // ===== SUPABASE =====
+        const SUPABASE_URL = 'https://qsooyiuhnbgjinbilqyc.supabase.co';
 
-    // ── IndexedDB ──────────────────────────────────────────────────────────────
-    function initDB() {
-        const req = indexedDB.open('VaultDB', 3);
-        req.onupgradeneeded = function(e) {
-            const d = e.target.result;
-            if (!d.objectStoreNames.contains('accounts'))
-                d.createObjectStore('accounts', { keyPath: 'id', autoIncrement: true });
-            if (!d.objectStoreNames.contains('categories'))
-                d.createObjectStore('categories', { keyPath: 'id', autoIncrement: true });
-        };
-        req.onsuccess = function(e) { db = e.target.result; loadAll(); };
-        req.onerror = function() { alert('Gagal membuka database.'); };
-    }
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFzb295aXVobmJnamluYmlscXljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAyNjIzMTgsImV4cCI6MjA5NTgzODMxOH0.83NsLjfl-YsHNu2xeD6bVqdJcdwCTmblu8E0RyJ2bYY';
 
-    function loadAll() {
-        const tx = db.transaction(['accounts','categories'],'readonly');
-        tx.objectStore('categories').getAll().onsuccess = function(e) {
-            categories = e.target.result;
-            tx.objectStore('accounts').getAll().onsuccess = function(e2) {
-                allAccounts = e2.target.result;
-                renderVault();
-                renderList();
-                if (selectedId) showDetail(selectedId);
+        const supabaseClient = supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
+
+        // ── IndexedDB ──────────────────────────────────────────────────────────────
+        function initDB() {
+            const req = indexedDB.open('VaultDB', 3);
+            req.onupgradeneeded = function (e) {
+                const d = e.target.result;
+                if (!d.objectStoreNames.contains('accounts'))
+                    d.createObjectStore('accounts', { keyPath: 'id', autoIncrement: true });
+                if (!d.objectStoreNames.contains('categories'))
+                    d.createObjectStore('categories', { keyPath: 'id', autoIncrement: true });
             };
-        };
-    }
+            req.onsuccess = function (e) { db = e.target.result; loadAll(); };
+            req.onerror = function () { alert('Gagal membuka database.'); };
+        }
 
-    function saveRecord(record, storeName, cb) {
-        const tx = db.transaction(storeName,'readwrite');
-        const store = tx.objectStore(storeName);
-        const req = record.id ? store.put(record) : store.add(record);
-        req.onsuccess = function(e) { if (cb) cb(e.target.result); };
-        req.onerror = function(e) {
-            console.error('saveRecord error:', e.target.error);
-            alert('Gagal menyimpan: ' + (e.target.error ? e.target.error.message : 'Unknown error'));
-            document.querySelectorAll('.btn-primary').forEach(btn => {
-                btn.disabled = false;
-                if (btn.textContent === 'Menyimpan...') btn.textContent = 'Simpan';
-            });
-        };
-    }
+        function loadAll() {
+            const tx = db.transaction(['accounts', 'categories'], 'readonly');
+            tx.objectStore('categories').getAll().onsuccess = function (e) {
+                categories = e.target.result;
+                tx.objectStore('accounts').getAll().onsuccess = function (e2) {
+                    allAccounts = e2.target.result;
+                    renderVault();
+                    renderList();
+                    if (selectedId) showDetail(selectedId);
+                };
+            };
+        }
 
-    function deleteFromStore(storeName, id, cb) {
-        db.transaction(storeName,'readwrite').objectStore(storeName)
-            .delete(id).onsuccess = function() { if (cb) cb(); };
-    }
+        function saveRecord(record, storeName, cb) {
+            const tx = db.transaction(storeName, 'readwrite');
+            const store = tx.objectStore(storeName);
+            const req = record.id ? store.put(record) : store.add(record);
+            req.onsuccess = function (e) { if (cb) cb(e.target.result); };
+            req.onerror = function (e) {
+                console.error('saveRecord error:', e.target.error);
+                alert('Gagal menyimpan: ' + (e.target.error ? e.target.error.message : 'Unknown error'));
+                document.querySelectorAll('.btn-primary').forEach(btn => {
+                    btn.disabled = false;
+                    if (btn.textContent === 'Menyimpan...') btn.textContent = 'Simpan';
+                });
+            };
+        }
 
-    // ── Categories ─────────────────────────────────────────────────────────────
-    function catById(id) { return categories.find(c => c.id === id) || null; }
+        function deleteFromStore(storeName, id, cb) {
+            db.transaction(storeName, 'readwrite').objectStore(storeName)
+                .delete(id).onsuccess = function () { if (cb) cb(); };
+        }
 
-    function catCount(catId) {
-        if (catId === '__all__') return allAccounts.length;
-        return allAccounts.filter(a => a.categoryId === catId).length;
-    }
+        // ── Categories ─────────────────────────────────────────────────────────────
+        function catById(id) { return categories.find(c => c.id === id) || null; }
 
-    function catIconColorClass(cat) {
-        let hash = 0;
-        const s = cat.name || '';
-        for (let c of s) hash = c.charCodeAt(0) + ((hash << 5) - hash);
-        return 'cat-color-' + (Math.abs(hash) % 6);
-    }
+        function catCount(catId) {
+            if (catId === '__all__') return allAccounts.length;
+            return allAccounts.filter(a => a.categoryId === catId).length;
+        }
 
-    function renderVault() {
-        const el = document.getElementById('vault-list');
-        let html = '';
+        function catIconColorClass(cat) {
+            let hash = 0;
+            const s = cat.name || '';
+            for (let c of s) hash = c.charCodeAt(0) + ((hash << 5) - hash);
+            return 'cat-color-' + (Math.abs(hash) % 6);
+        }
 
-        // "All Items"
-        const allActive = activeCatId === '__all__' ? ' active' : '';
-        html += `
+        function renderVault() {
+            const el = document.getElementById('vault-list');
+            let html = '';
+
+            // "All Items"
+            const allActive = activeCatId === '__all__' ? ' active' : '';
+            html += `
         <div class="vault-item${allActive}" onclick="selectCat('__all__')">
             <div class="vault-item-icon special">🔐</div>
             <div class="vault-item-body">
@@ -785,12 +1156,12 @@
             </div>
         </div>`;
 
-        if (categories.length > 0) {
-            html += `<div class="vault-section-sep"></div>`;
-            categories.forEach(cat => {
-                const active = activeCatId === cat.id ? ' active' : '';
-                const colorCls = catIconColorClass(cat);
-                html += `
+            if (categories.length > 0) {
+                html += `<div class="vault-section-sep"></div>`;
+                categories.forEach(cat => {
+                    const active = activeCatId === cat.id ? ' active' : '';
+                    const colorCls = catIconColorClass(cat);
+                    html += `
                 <div class="vault-item${active}" onclick="selectCat(${cat.id})">
                     <div class="vault-item-icon ${colorCls}">${cat.icon || '📁'}</div>
                     <div class="vault-item-body">
@@ -799,34 +1170,34 @@
                     </div>
                     <button class="vault-item-menu" onclick="openCatMenu(event, ${cat.id})" title="Opsi">⋯</button>
                 </div>`;
-            });
+                });
+            }
+
+            el.innerHTML = html;
         }
 
-        el.innerHTML = html;
-    }
+        function selectCat(catId) {
+            activeCatId = catId;
+            selectedId = null;
+            document.getElementById('detail-view').style.display = 'none';
+            document.getElementById('empty-right').style.display = 'flex';
+            renderVault();
+            renderList();
+        }
 
-    function selectCat(catId) {
-        activeCatId = catId;
-        selectedId = null;
-        document.getElementById('detail-view').style.display = 'none';
-        document.getElementById('empty-right').style.display = 'flex';
-        renderVault();
-        renderList();
-    }
+        // ── Category Modal ──────────────────────────────────────────────────────────
+        let selectedCatIcon = '📁';
 
-    // ── Category Modal ──────────────────────────────────────────────────────────
-    let selectedCatIcon = '📁';
+        function openCatModal(renameId = null) {
+            renamingCatId = renameId;
+            const cat = renameId ? catById(renameId) : null;
+            document.getElementById('cat-modal-title').textContent = renameId ? 'Rename Kategori' : 'Tambah Kategori';
+            document.getElementById('cat-name').value = cat ? cat.name : '';
+            selectedCatIcon = cat ? (cat.icon || '📁') : '📁';
 
-    function openCatModal(renameId = null) {
-        renamingCatId = renameId;
-        const cat = renameId ? catById(renameId) : null;
-        document.getElementById('cat-modal-title').textContent = renameId ? 'Rename Kategori' : 'Tambah Kategori';
-        document.getElementById('cat-name').value = cat ? cat.name : '';
-        selectedCatIcon = cat ? (cat.icon || '📁') : '📁';
-
-        // Render icon picker
-        const picker = document.getElementById('cat-icon-picker');
-        picker.innerHTML = CAT_ICONS.map(ic => `
+            // Render icon picker
+            const picker = document.getElementById('cat-icon-picker');
+            picker.innerHTML = CAT_ICONS.map(ic => `
             <div onclick="pickCatIcon('${ic}',this)" style="
                 width:34px;height:34px;display:flex;align-items:center;justify-content:center;
                 border-radius:0.35rem;font-size:1.1rem;cursor:pointer;
@@ -836,107 +1207,107 @@
             ">${ic}</div>
         `).join('');
 
-        document.getElementById('cat-modal-overlay').classList.remove('hidden');
-        document.getElementById('cat-name').focus();
-    }
-
-    function pickCatIcon(icon, el) {
-        selectedCatIcon = icon;
-        document.querySelectorAll('#cat-icon-picker > div').forEach(d => {
-            d.style.border = '2px solid transparent';
-            d.style.background = 'var(--bg-hover)';
-        });
-        el.style.border = '2px solid var(--accent)';
-        el.style.background = 'var(--accent-bg)';
-    }
-
-    function closeCatModal() {
-        document.getElementById('cat-modal-overlay').classList.add('hidden');
-        renamingCatId = null;
-    }
-
-    function saveCat() {
-        const name = document.getElementById('cat-name').value.trim();
-        if (!name) { alert('Nama kategori wajib diisi!'); return; }
-
-        const record = renamingCatId
-            ? { id: renamingCatId, name, icon: selectedCatIcon }
-            : { name, icon: selectedCatIcon };
-
-        saveRecord(record, 'categories', function(newId) {
-            if (renamingCatId) {
-                const idx = categories.findIndex(c => c.id === renamingCatId);
-                if (idx >= 0) categories[idx] = record;
-            } else {
-                record.id = newId;
-                categories.push(record);
-            }
-            closeCatModal();
-            renderVault();
-            renderList();
-        });
-    }
-
-    // ── Category Context Menu ──────────────────────────────────────────────────
-    function openCatMenu(e, catId) {
-        e.stopPropagation();
-        ctxCatId = catId;
-        const menu = document.getElementById('ctx-menu');
-        menu.classList.remove('hidden');
-        let x = e.clientX, y = e.clientY;
-        if (x + 170 > window.innerWidth) x = window.innerWidth - 175;
-        if (y + 100 > window.innerHeight) y = window.innerHeight - 105;
-        menu.style.left = x + 'px';
-        menu.style.top = y + 'px';
-    }
-
-    function closeCtxMenu() { document.getElementById('ctx-menu').classList.add('hidden'); ctxCatId = null; }
-
-    function ctxRename() {
-        const id = ctxCatId; closeCtxMenu();
-        openCatModal(id);
-    }
-
-    function ctxDelete() {
-        const id = ctxCatId; closeCtxMenu();
-        const cat = catById(id);
-        if (!cat) return;
-        const count = catCount(id);
-        const msg = count > 0
-            ? `Hapus kategori "${cat.name}"? ${count} akun di dalamnya akan dipindah ke "Tanpa Kategori".`
-            : `Hapus kategori "${cat.name}"?`;
-        if (!confirm(msg)) return;
-
-        // Un-assign accounts from this category
-        const affected = allAccounts.filter(a => a.categoryId === id);
-        let done = 0;
-        function next() {
-            if (done >= affected.length) {
-                deleteFromStore('categories', id, function() {
-                    categories = categories.filter(c => c.id !== id);
-                    if (activeCatId === id) activeCatId = '__all__';
-                    renderVault();
-                    renderList();
-                });
-                return;
-            }
-            const a = affected[done++];
-            delete a.categoryId;
-            saveRecord(a, 'accounts', next);
+            document.getElementById('cat-modal-overlay').classList.remove('hidden');
+            document.getElementById('cat-name').focus();
         }
-        next();
-    }
 
-    // ── Move Modal ──────────────────────────────────────────────────────────────
-    function openMoveModal(accountId) {
-        movingAccountId = accountId;
-        const a = allAccounts.find(x => x.id === accountId);
-        if (!a) return;
-        moveTargetCatId = a.categoryId || null;
+        function pickCatIcon(icon, el) {
+            selectedCatIcon = icon;
+            document.querySelectorAll('#cat-icon-picker > div').forEach(d => {
+                d.style.border = '2px solid transparent';
+                d.style.background = 'var(--bg-hover)';
+            });
+            el.style.border = '2px solid var(--accent)';
+            el.style.background = 'var(--accent-bg)';
+        }
 
-        const container = document.getElementById('move-options');
-        const noneSelected = !a.categoryId ? ' selected' : '';
-        let html = `
+        function closeCatModal() {
+            document.getElementById('cat-modal-overlay').classList.add('hidden');
+            renamingCatId = null;
+        }
+
+        function saveCat() {
+            const name = document.getElementById('cat-name').value.trim();
+            if (!name) { alert('Nama kategori wajib diisi!'); return; }
+
+            const record = renamingCatId
+                ? { id: renamingCatId, name, icon: selectedCatIcon }
+                : { name, icon: selectedCatIcon };
+
+            saveRecord(record, 'categories', function (newId) {
+                if (renamingCatId) {
+                    const idx = categories.findIndex(c => c.id === renamingCatId);
+                    if (idx >= 0) categories[idx] = record;
+                } else {
+                    record.id = newId;
+                    categories.push(record);
+                }
+                closeCatModal();
+                renderVault();
+                renderList();
+            });
+        }
+
+        // ── Category Context Menu ──────────────────────────────────────────────────
+        function openCatMenu(e, catId) {
+            e.stopPropagation();
+            ctxCatId = catId;
+            const menu = document.getElementById('ctx-menu');
+            menu.classList.remove('hidden');
+            let x = e.clientX, y = e.clientY;
+            if (x + 170 > window.innerWidth) x = window.innerWidth - 175;
+            if (y + 100 > window.innerHeight) y = window.innerHeight - 105;
+            menu.style.left = x + 'px';
+            menu.style.top = y + 'px';
+        }
+
+        function closeCtxMenu() { document.getElementById('ctx-menu').classList.add('hidden'); ctxCatId = null; }
+
+        function ctxRename() {
+            const id = ctxCatId; closeCtxMenu();
+            openCatModal(id);
+        }
+
+        function ctxDelete() {
+            const id = ctxCatId; closeCtxMenu();
+            const cat = catById(id);
+            if (!cat) return;
+            const count = catCount(id);
+            const msg = count > 0
+                ? `Hapus kategori "${cat.name}"? ${count} akun di dalamnya akan dipindah ke "Tanpa Kategori".`
+                : `Hapus kategori "${cat.name}"?`;
+            if (!confirm(msg)) return;
+
+            // Un-assign accounts from this category
+            const affected = allAccounts.filter(a => a.categoryId === id);
+            let done = 0;
+            function next() {
+                if (done >= affected.length) {
+                    deleteFromStore('categories', id, function () {
+                        categories = categories.filter(c => c.id !== id);
+                        if (activeCatId === id) activeCatId = '__all__';
+                        renderVault();
+                        renderList();
+                    });
+                    return;
+                }
+                const a = affected[done++];
+                delete a.categoryId;
+                saveRecord(a, 'accounts', next);
+            }
+            next();
+        }
+
+        // ── Move Modal ──────────────────────────────────────────────────────────────
+        function openMoveModal(accountId) {
+            movingAccountId = accountId;
+            const a = allAccounts.find(x => x.id === accountId);
+            if (!a) return;
+            moveTargetCatId = a.categoryId || null;
+
+            const container = document.getElementById('move-options');
+            const noneSelected = !a.categoryId ? ' selected' : '';
+            let html = `
         <div class="move-option${noneSelected}" onclick="selectMoveTarget(null,this)">
             <div class="move-option-icon">📂</div>
             <div>
@@ -945,10 +1316,10 @@
             </div>
         </div>`;
 
-        categories.forEach(cat => {
-            const sel = a.categoryId === cat.id ? ' selected' : '';
-            const colorCls = catIconColorClass(cat);
-            html += `
+            categories.forEach(cat => {
+                const sel = a.categoryId === cat.id ? ' selected' : '';
+                const colorCls = catIconColorClass(cat);
+                html += `
             <div class="move-option${sel}" onclick="selectMoveTarget(${cat.id},this)">
                 <div class="move-option-icon ${colorCls}">${cat.icon || '📁'}</div>
                 <div>
@@ -956,132 +1327,132 @@
                     <div class="move-option-count">${catCount(cat.id)} akun</div>
                 </div>
             </div>`;
-        });
+            });
 
-        container.innerHTML = html;
-        document.getElementById('move-modal-overlay').classList.remove('hidden');
-    }
-
-    function selectMoveTarget(catId, el) {
-        moveTargetCatId = catId;
-        document.querySelectorAll('.move-option').forEach(d => d.classList.remove('selected'));
-        el.classList.add('selected');
-    }
-
-    function closeMoveModal() {
-        document.getElementById('move-modal-overlay').classList.add('hidden');
-        movingAccountId = null;
-        moveTargetCatId = null;
-    }
-
-    function confirmMove() {
-        if (!movingAccountId) return;
-        const a = allAccounts.find(x => x.id === movingAccountId);
-        if (!a) return;
-
-        if (moveTargetCatId === null) {
-            delete a.categoryId;
-        } else {
-            a.categoryId = moveTargetCatId;
-        }
-        a.updatedAt = new Date().toISOString();
-
-        saveRecord(a, 'accounts', function() {
-            closeMoveModal();
-            renderVault();
-            renderList();
-            showDetail(a.id);
-        });
-    }
-
-    // ── Render Vault Count helper ──────────────────────────────────────────────
-    function catCount(catId) {
-        if (catId === '__all__') return allAccounts.length;
-        if (catId === '__uncategorized') return allAccounts.filter(a => !a.categoryId).length;
-        return allAccounts.filter(a => a.categoryId === catId).length;
-    }
-
-    // ── Render List ────────────────────────────────────────────────────────────
-    function renderList() {
-        const q = document.getElementById('search-input').value.toLowerCase();
-
-        let source = allAccounts;
-        if (activeCatId !== '__all__') {
-            source = allAccounts.filter(a => a.categoryId === activeCatId);
+            container.innerHTML = html;
+            document.getElementById('move-modal-overlay').classList.remove('hidden');
         }
 
-        const filtered = source.filter(a =>
-            (a.platform || '').toLowerCase().includes(q) ||
-            (a.username || '').toLowerCase().includes(q)
-        );
-
-        // Update title
-        const titleEl = document.getElementById('list-title-text');
-        const countEl = document.getElementById('list-title-count');
-        if (activeCatId === '__all__') {
-            titleEl.textContent = 'Semua Item';
-        } else {
-            const cat = catById(activeCatId);
-            titleEl.textContent = cat ? (cat.icon + ' ' + cat.name) : 'Kategori';
-        }
-        countEl.textContent = filtered.length;
-
-        const el = document.getElementById('account-list');
-        if (filtered.length === 0) {
-            el.innerHTML = `<div class="empty-list">${source.length === 0 ? 'Belum ada akun.' : 'Tidak ditemukan.'}</div>`;
-            return;
+        function selectMoveTarget(catId, el) {
+            moveTargetCatId = catId;
+            document.querySelectorAll('.move-option').forEach(d => d.classList.remove('selected'));
+            el.classList.add('selected');
         }
 
-        // Group by date
-        const today = new Date(); today.setHours(0,0,0,0);
-        const yesterday = new Date(today); yesterday.setDate(yesterday.getDate()-1);
-        const groups = { 'Hari Ini': [], 'Kemarin': [], 'Sebelumnya': [] };
-        filtered.forEach(a => {
-            const d = new Date(a.createdAt || 0); d.setHours(0,0,0,0);
-            if (d >= today) groups['Hari Ini'].push(a);
-            else if (d >= yesterday) groups['Kemarin'].push(a);
-            else groups['Sebelumnya'].push(a);
-        });
+        function closeMoveModal() {
+            document.getElementById('move-modal-overlay').classList.add('hidden');
+            movingAccountId = null;
+            moveTargetCatId = null;
+        }
 
-        let html = '';
-        for (const [label, items] of Object.entries(groups)) {
-            if (!items.length) continue;
-            html += `<div class="list-section-label">${label}</div>`;
-            items.forEach(a => {
-                const active = a.id === selectedId ? ' active' : '';
-                html += `
+        function confirmMove() {
+            if (!movingAccountId) return;
+            const a = allAccounts.find(x => x.id === movingAccountId);
+            if (!a) return;
+
+            if (moveTargetCatId === null) {
+                delete a.categoryId;
+            } else {
+                a.categoryId = moveTargetCatId;
+            }
+            a.updatedAt = new Date().toISOString();
+
+            saveRecord(a, 'accounts', function () {
+                closeMoveModal();
+                renderVault();
+                renderList();
+                showDetail(a.id);
+            });
+        }
+
+        // ── Render Vault Count helper ──────────────────────────────────────────────
+        function catCount(catId) {
+            if (catId === '__all__') return allAccounts.length;
+            if (catId === '__uncategorized') return allAccounts.filter(a => !a.categoryId).length;
+            return allAccounts.filter(a => a.categoryId === catId).length;
+        }
+
+        // ── Render List ────────────────────────────────────────────────────────────
+        function renderList() {
+            const q = document.getElementById('search-input').value.toLowerCase();
+
+            let source = allAccounts;
+            if (activeCatId !== '__all__') {
+                source = allAccounts.filter(a => a.categoryId === activeCatId);
+            }
+
+            const filtered = source.filter(a =>
+                (a.platform || '').toLowerCase().includes(q) ||
+                (a.username || '').toLowerCase().includes(q)
+            );
+
+            // Update title
+            const titleEl = document.getElementById('list-title-text');
+            const countEl = document.getElementById('list-title-count');
+            if (activeCatId === '__all__') {
+                titleEl.textContent = 'Semua Item';
+            } else {
+                const cat = catById(activeCatId);
+                titleEl.textContent = cat ? (cat.icon + ' ' + cat.name) : 'Kategori';
+            }
+            countEl.textContent = filtered.length;
+
+            const el = document.getElementById('account-list');
+            if (filtered.length === 0) {
+                el.innerHTML = `<div class="empty-list">${source.length === 0 ? 'Belum ada akun.' : 'Tidak ditemukan.'}</div>`;
+                return;
+            }
+
+            // Group by date
+            const today = new Date(); today.setHours(0, 0, 0, 0);
+            const yesterday = new Date(today); yesterday.setDate(yesterday.getDate() - 1);
+            const groups = { 'Hari Ini': [], 'Kemarin': [], 'Sebelumnya': [] };
+            filtered.forEach(a => {
+                const d = new Date(a.createdAt || 0); d.setHours(0, 0, 0, 0);
+                if (d >= today) groups['Hari Ini'].push(a);
+                else if (d >= yesterday) groups['Kemarin'].push(a);
+                else groups['Sebelumnya'].push(a);
+            });
+
+            let html = '';
+            for (const [label, items] of Object.entries(groups)) {
+                if (!items.length) continue;
+                html += `<div class="list-section-label">${label}</div>`;
+                items.forEach(a => {
+                    const active = a.id === selectedId ? ' active' : '';
+                    html += `
                 <div class="account-item${active}" onclick="showDetail(${a.id})">
-                    ${iconHtml(a,'small')}
+                    ${iconHtml(a, 'small')}
                     <div class="item-text">
                         <div class="item-platform">${escHtml(a.platform)}</div>
                         <div class="item-username">${escHtml(a.username)}</div>
                     </div>
                 </div>`;
-            });
+                });
+            }
+            el.innerHTML = html;
         }
-        el.innerHTML = html;
-    }
 
-    // ── Show Detail ────────────────────────────────────────────────────────────
-    function showDetail(id) {
-        selectedId = id;
-        const a = allAccounts.find(x => x.id === id);
-        if (!a) return;
+        // ── Show Detail ────────────────────────────────────────────────────────────
+        function showDetail(id) {
+            selectedId = id;
+            const a = allAccounts.find(x => x.id === id);
+            if (!a) return;
 
-        document.getElementById('empty-right').style.display = 'none';
-        const dv = document.getElementById('detail-view');
-        dv.style.display = 'block';
+            document.getElementById('empty-right').style.display = 'none';
+            const dv = document.getElementById('detail-view');
+            dv.style.display = 'block';
 
-        const cat = a.categoryId ? catById(a.categoryId) : null;
-        const catBadge = cat
-            ? `<span class="detail-category-badge" onclick="openMoveModal(${a.id})" title="Pindah kategori">${cat.icon || '📁'} ${escHtml(cat.name)}</span>`
-            : `<span class="detail-category-badge" onclick="openMoveModal(${a.id})" title="Pindah kategori">📂 Tanpa Kategori</span>`;
+            const cat = a.categoryId ? catById(a.categoryId) : null;
+            const catBadge = cat
+                ? `<span class="detail-category-badge" onclick="openMoveModal(${a.id})" title="Pindah kategori">${cat.icon || '📁'} ${escHtml(cat.name)}</span>`
+                : `<span class="detail-category-badge" onclick="openMoveModal(${a.id})" title="Pindah kategori">📂 Tanpa Kategori</span>`;
 
-        const urlHtml = a.url
-            ? `<a class="field-value url normal" href="${escHtml(a.url)}" target="_blank" onclick="return openUrl('${escAttr(a.url)}')">${escHtml(a.url)}</a>`
-            : `<span class="field-value normal" style="color:var(--text-secondary)">—</span>`;
+            const urlHtml = a.url
+                ? `<a class="field-value url normal" href="${escHtml(a.url)}" target="_blank" onclick="return openUrl('${escAttr(a.url)}')">${escHtml(a.url)}</a>`
+                : `<span class="field-value normal" style="color:var(--text-secondary)">—</span>`;
 
-        const noteHtml = a.note ? `
+            const noteHtml = a.note ? `
             <div class="field-card">
                 <div class="field-icon-wrap">📝</div>
                 <div class="field-content">
@@ -1090,9 +1461,9 @@
                 </div>
             </div>` : '';
 
-        dv.innerHTML = `
+            dv.innerHTML = `
             <div class="detail-header">
-                ${iconHtml(a,'large')}
+                ${iconHtml(a, 'large')}
                 <div style="flex:1;min-width:0">
                     <div class="detail-title">${escHtml(a.platform)}</div>
                     <div class="detail-subtitle">Ditambahkan ${formatDate(a.createdAt)}</div>
@@ -1139,282 +1510,300 @@
             ${noteHtml}
         `;
 
-        renderList();
-    }
-
-    let pwVisible = false;
-    function togglePwDetail(pw) {
-        pwVisible = !pwVisible;
-        const el = document.getElementById('pw-display');
-        const btn = document.getElementById('pw-toggle-btn');
-        if (el) el.textContent = pwVisible ? pw : '••••••••••••';
-        if (btn) btn.title = pwVisible ? 'Sembunyikan' : 'Tampilkan';
-    }
-
-    function openUrl(url) { window.open(url, '_blank'); return false; }
-
-    // ── Add Modal ──────────────────────────────────────────────────────────────
-    function populateCategorySelect(selectId, selectedCatId) {
-        const sel = document.getElementById(selectId);
-        let html = `<option value="">— Tanpa Kategori —</option>`;
-        categories.forEach(cat => {
-            const sel2 = (cat.id === selectedCatId) ? ' selected' : '';
-            html += `<option value="${cat.id}"${sel2}>${cat.icon || '📁'} ${escHtml(cat.name)}</option>`;
-        });
-        sel.innerHTML = html;
-    }
-
-    function openAddModal() {
-        editingId = null;
-        document.getElementById('modal-title').textContent = 'Tambah Akun Baru';
-        ['m-platform','m-url','m-username','m-password','m-note'].forEach(id => {
-            document.getElementById(id).value = '';
-        });
-        // Pre-select current category if not "all"
-        const preselect = (activeCatId !== '__all__') ? activeCatId : null;
-        populateCategorySelect('m-category', preselect);
-        document.getElementById('modal-overlay').classList.remove('hidden');
-        document.getElementById('m-platform').focus();
-    }
-
-    function closeModal() {
-        document.getElementById('modal-overlay').classList.add('hidden');
-        const saveBtn = document.querySelector('#modal-overlay .btn-primary');
-        if (saveBtn) { saveBtn.textContent = 'Simpan'; saveBtn.disabled = false; }
-    }
-
-    async function saveAccount() {
-        const platform = document.getElementById('m-platform').value.trim();
-        const url = document.getElementById('m-url').value.trim();
-        const username = document.getElementById('m-username').value.trim();
-        const password = document.getElementById('m-password').value;
-        const note = document.getElementById('m-note').value.trim();
-        const catVal = document.getElementById('m-category').value;
-        const categoryId = catVal ? parseInt(catVal) : undefined;
-
-        if (!platform || !username || !password) {
-            alert('Platform, username, dan password wajib diisi!');
-            return;
+            renderList();
         }
 
-        const saveBtn = document.querySelector('#modal-overlay .btn-primary');
-        if (!saveBtn) return;
-        saveBtn.textContent = 'Menyimpan...';
-        saveBtn.disabled = true;
+        let pwVisible = false;
+        function togglePwDetail(pw) {
+            pwVisible = !pwVisible;
+            const el = document.getElementById('pw-display');
+            const btn = document.getElementById('pw-toggle-btn');
+            if (el) el.textContent = pwVisible ? pw : '••••••••••••';
+            if (btn) btn.title = pwVisible ? 'Sembunyikan' : 'Tampilkan';
+        }
 
-        try {
-            const favicon = await fetchFavicon(url);
-            const record = { platform, url, username, password, note, favicon, createdAt: new Date().toISOString() };
-            if (categoryId) record.categoryId = categoryId;
+        function openUrl(url) { window.open(url, '_blank'); return false; }
 
-            saveRecord(record, 'accounts', function(newId) {
-                record.id = newId;
-                allAccounts.push(record);
-                closeModal();
-                const btn = document.querySelector('#modal-overlay .btn-primary');
-                if (btn) { btn.textContent = 'Simpan'; btn.disabled = false; }
-                renderVault();
-                renderList();
-                showDetail(newId);
+        // ── Add Modal ──────────────────────────────────────────────────────────────
+        function populateCategorySelect(selectId, selectedCatId) {
+            const sel = document.getElementById(selectId);
+            let html = `<option value="">— Tanpa Kategori —</option>`;
+            categories.forEach(cat => {
+                const sel2 = (cat.id === selectedCatId) ? ' selected' : '';
+                html += `<option value="${cat.id}"${sel2}>${cat.icon || '📁'} ${escHtml(cat.name)}</option>`;
             });
-        } catch (err) {
-            console.error('saveAccount error:', err);
-            alert('Gagal menyimpan akun. Silakan coba lagi.');
-            saveBtn.textContent = 'Simpan';
-            saveBtn.disabled = false;
-        }
-    }
-
-    // ── Edit Modal ─────────────────────────────────────────────────────────────
-    function openEditModal(id) {
-        const a = allAccounts.find(x => x.id === id);
-        if (!a) return;
-        editingId = id;
-        document.getElementById('e-platform').value = a.platform || '';
-        document.getElementById('e-url').value = a.url || '';
-        document.getElementById('e-username').value = a.username || '';
-        document.getElementById('e-password').value = a.password || '';
-        document.getElementById('e-note').value = a.note || '';
-        document.getElementById('edit-modal-overlay').classList.remove('hidden');
-        document.getElementById('e-platform').focus();
-    }
-
-    function closeEditModal() {
-        document.getElementById('edit-modal-overlay').classList.add('hidden');
-        const saveBtn = document.querySelector('#edit-modal-overlay .btn-primary');
-        if (saveBtn) { saveBtn.textContent = 'Simpan'; saveBtn.disabled = false; }
-    }
-
-    async function saveEdit() {
-        if (!editingId) return;
-        const a = allAccounts.find(x => x.id === editingId);
-        if (!a) return;
-
-        const platform = document.getElementById('e-platform').value.trim();
-        const url = document.getElementById('e-url').value.trim();
-        const username = document.getElementById('e-username').value.trim();
-        const password = document.getElementById('e-password').value;
-        const note = document.getElementById('e-note').value.trim();
-
-        if (!platform || !username || !password) {
-            alert('Platform, username, dan password wajib diisi!');
-            return;
+            sel.innerHTML = html;
         }
 
-        const saveBtn = document.querySelector('#edit-modal-overlay .btn-primary');
-        if (saveBtn) { saveBtn.textContent = 'Menyimpan...'; saveBtn.disabled = true; }
-
-        try {
-            const favicon = (url !== a.url) ? await fetchFavicon(url) : a.favicon;
-            a.platform = platform;
-            a.url = url;
-            a.username = username;
-            a.password = password;
-            a.note = note;
-            a.favicon = favicon;
-            a.updatedAt = new Date().toISOString();
-
-            saveRecord(a, 'accounts', function() {
-                closeEditModal();
-                renderVault();
-                renderList();
-                showDetail(editingId);
+        function openAddModal() {
+            editingId = null;
+            document.getElementById('modal-title').textContent = 'Tambah Akun Baru';
+            ['m-platform', 'm-url', 'm-username', 'm-password', 'm-note'].forEach(id => {
+                document.getElementById(id).value = '';
             });
-        } catch (err) {
-            console.error('saveEdit error:', err);
-            alert('Gagal menyimpan. Silakan coba lagi.');
+            // Pre-select current category if not "all"
+            const preselect = (activeCatId !== '__all__') ? activeCatId : null;
+            populateCategorySelect('m-category', preselect);
+            document.getElementById('modal-overlay').classList.remove('hidden');
+            document.getElementById('m-platform').focus();
+        }
+
+        function closeModal() {
+            document.getElementById('modal-overlay').classList.add('hidden');
+            const saveBtn = document.querySelector('#modal-overlay .btn-primary');
             if (saveBtn) { saveBtn.textContent = 'Simpan'; saveBtn.disabled = false; }
         }
-    }
 
-    // ── Delete ─────────────────────────────────────────────────────────────────
-    function confirmDelete(id) {
-        const a = allAccounts.find(x => x.id === id);
-        if (confirm(`Hapus akun "${a.platform}"?`)) {
-            deleteFromStore('accounts', id, function() {
-                allAccounts = allAccounts.filter(a => a.id !== id);
-                selectedId = null;
-                document.getElementById('detail-view').style.display = 'none';
-                document.getElementById('empty-right').style.display = 'flex';
-                renderVault();
-                renderList();
-            });
-        }
-    }
+        async function saveAccount() {
+            const platform = document.getElementById('m-platform').value.trim();
+            const url = document.getElementById('m-url').value.trim();
+            const username = document.getElementById('m-username').value.trim();
+            const password = document.getElementById('m-password').value;
+            const note = document.getElementById('m-note').value.trim();
+            const catVal = document.getElementById('m-category').value;
+            const categoryId = catVal ? parseInt(catVal) : undefined;
 
-    // ── Favicon fetch ──────────────────────────────────────────────────────────
-    async function fetchFavicon(url) {
-        if (!url) return null;
-        try {
-            const domain = new URL(url.startsWith('http') ? url : 'https://'+url).hostname;
-            const faviconUrl = `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
-            const res = await fetch(faviconUrl);
-            const blob = await res.blob();
-            return await new Promise(resolve => {
-                const reader = new FileReader();
-                reader.onload = () => resolve(reader.result);
-                reader.readAsDataURL(blob);
-            });
-        } catch { return null; }
-    }
+            if (!platform || !username || !password) {
+                alert('Platform, username, dan password wajib diisi!');
+                return;
+            }
 
-    // ── Color avatar helper ────────────────────────────────────────────────────
-    function colorClass(str) {
-        let hash = 0;
-        for (let c of str) hash = c.charCodeAt(0) + ((hash << 5) - hash);
-        return 'color-' + (Math.abs(hash) % 6);
-    }
+            const saveBtn = document.querySelector('#modal-overlay .btn-primary');
+            if (!saveBtn) return;
+            saveBtn.textContent = 'Menyimpan...';
+            saveBtn.disabled = true;
 
-    function iconHtml(account, size = 'small') {
-        const cls = size === 'large' ? 'detail-icon' : 'platform-icon';
-        const imgSize = size === 'large' ? 32 : 20;
-        if (account.favicon) {
-            return `<div class="${cls}"><img src="${account.favicon}" width="${imgSize}" height="${imgSize}" onerror="this.parentNode.innerHTML='<span>${escHtml(account.platform.charAt(0).toUpperCase())}</span>'"></div>`;
-        }
-        const letter = account.platform.charAt(0).toUpperCase();
-        return `<div class="${cls} ${colorClass(account.platform)}">${letter}</div>`;
-    }
-
-    // ── Export / Import ────────────────────────────────────────────────────────
-    function exportData() {
-        if (!allAccounts.length && !categories.length) { alert('Tidak ada data.'); return; }
-        const backup = { accounts: allAccounts, categories };
-        const el = document.createElement('a');
-        el.href = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(backup, null, 2));
-        el.download = 'vault-backup-' + new Date().toISOString().split('T')[0] + '.json';
-        el.click();
-    }
-
-    function importData(e) {
-        const file = e.target.files[0]; if (!file) return;
-        const reader = new FileReader();
-        reader.onload = function(ev) {
             try {
-                const data = JSON.parse(ev.target.result);
-                // Support both new format {accounts,categories} and old format (array)
-                const accs = Array.isArray(data) ? data : (data.accounts || []);
-                const cats = Array.isArray(data) ? [] : (data.categories || []);
+                const favicon = await fetchFavicon(url);
+                const record = { platform, url, username, password, note, favicon, createdAt: new Date().toISOString() };
+                if (categoryId) record.categoryId = categoryId;
 
-                const tx = db.transaction(['accounts','categories'],'readwrite');
-                cats.forEach(item => { const c = {...item}; delete c.id; tx.objectStore('categories').add(c); });
-                accs.forEach(item => { const a = {...item}; delete a.id; tx.objectStore('accounts').add(a); });
-                tx.oncomplete = function() {
-                    loadAll();
-                    alert(accs.length + ' akun berhasil di-import!');
-                };
-            } catch(err) { alert('Format tidak valid.'); }
-        };
-        reader.readAsText(file);
-        e.target.value = '';
-    }
-
-    // ── Keyboard shortcuts ─────────────────────────────────────────────────────
-    document.addEventListener('keydown', function(e) {
-        if (e.isComposing) return;
-        const tag = document.activeElement ? document.activeElement.tagName : '';
-
-        if (e.key === 'Escape') {
-            closeModal(); closeEditModal(); closeCatModal(); closeMoveModal(); closeCtxMenu();
+                // KIRIM KE SUPABASE
+                const { error } = await supabaseClient
+                    .from('passwords')
+                    .insert([
+                        {
+                            platform: platform,
+                            username: username,
+                            password: password,
+                            url: url,
+                            note: note
+                        }
+                    ]);
+                if (error) {
+                    console.error('SUPABASE ERROR:', error);
+                    alert(JSON.stringify(error));
+                    return;
+                }
+                saveRecord(record, 'accounts', function (newId) {
+                    record.id = newId;
+                    allAccounts.push(record);
+                    closeModal();
+                    const btn = document.querySelector('#modal-overlay .btn-primary');
+                    if (btn) { btn.textContent = 'Simpan'; btn.disabled = false; }
+                    renderVault();
+                    renderList();
+                    showDetail(newId);
+                });
+            } catch (err) {
+                console.error('saveAccount error:', err);
+                alert('Gagal menyimpan akun. Silakan coba lagi.');
+                saveBtn.textContent = 'Simpan';
+                saveBtn.disabled = false;
+            }
         }
-        if (e.key === 'Enter' && tag !== 'TEXTAREA') {
-            const addOpen = !document.getElementById('modal-overlay').classList.contains('hidden');
-            const editOpen = !document.getElementById('edit-modal-overlay').classList.contains('hidden');
-            const catOpen = !document.getElementById('cat-modal-overlay').classList.contains('hidden');
-            const moveOpen = !document.getElementById('move-modal-overlay').classList.contains('hidden');
-            if (addOpen) { e.preventDefault(); saveAccount(); }
-            else if (editOpen) { e.preventDefault(); saveEdit(); }
-            else if (catOpen) { e.preventDefault(); saveCat(); }
-            else if (moveOpen) { e.preventDefault(); confirmMove(); }
+
+        // ── Edit Modal ─────────────────────────────────────────────────────────────
+        function openEditModal(id) {
+            const a = allAccounts.find(x => x.id === id);
+            if (!a) return;
+            editingId = id;
+            document.getElementById('e-platform').value = a.platform || '';
+            document.getElementById('e-url').value = a.url || '';
+            document.getElementById('e-username').value = a.username || '';
+            document.getElementById('e-password').value = a.password || '';
+            document.getElementById('e-note').value = a.note || '';
+            document.getElementById('edit-modal-overlay').classList.remove('hidden');
+            document.getElementById('e-platform').focus();
         }
-    });
 
-    // Close ctx menu on click outside
-    document.addEventListener('click', function(e) {
-        if (!document.getElementById('ctx-menu').classList.contains('hidden')) {
-            closeCtxMenu();
+        function closeEditModal() {
+            document.getElementById('edit-modal-overlay').classList.add('hidden');
+            const saveBtn = document.querySelector('#edit-modal-overlay .btn-primary');
+            if (saveBtn) { saveBtn.textContent = 'Simpan'; saveBtn.disabled = false; }
         }
-    });
 
-    // ── Helpers ────────────────────────────────────────────────────────────────
-    function copyText(text) {
-        navigator.clipboard.writeText(text);
-    }
+        async function saveEdit() {
+            if (!editingId) return;
+            const a = allAccounts.find(x => x.id === editingId);
+            if (!a) return;
 
-    function escHtml(s) {
-        return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-    }
+            const platform = document.getElementById('e-platform').value.trim();
+            const url = document.getElementById('e-url').value.trim();
+            const username = document.getElementById('e-username').value.trim();
+            const password = document.getElementById('e-password').value;
+            const note = document.getElementById('e-note').value.trim();
 
-    function escAttr(s) {
-        return String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'&quot;');
-    }
+            if (!platform || !username || !password) {
+                alert('Platform, username, dan password wajib diisi!');
+                return;
+            }
 
-    function formatDate(iso) {
-        if (!iso) return '—';
-        return new Date(iso).toLocaleDateString('id-ID', { day:'numeric', month:'short', year:'numeric' });
-    }
+            const saveBtn = document.querySelector('#edit-modal-overlay .btn-primary');
+            if (saveBtn) { saveBtn.textContent = 'Menyimpan...'; saveBtn.disabled = true; }
 
-    // ── Boot ──────────────────────────────────────────────────────────────────
-    initDB();
-</script>
+            try {
+                const favicon = (url !== a.url) ? await fetchFavicon(url) : a.favicon;
+                a.platform = platform;
+                a.url = url;
+                a.username = username;
+                a.password = password;
+                a.note = note;
+                a.favicon = favicon;
+                a.updatedAt = new Date().toISOString();
+
+                saveRecord(a, 'accounts', function () {
+                    closeEditModal();
+                    renderVault();
+                    renderList();
+                    showDetail(editingId);
+                });
+            } catch (err) {
+                console.error('saveEdit error:', err);
+                alert('Gagal menyimpan. Silakan coba lagi.');
+                if (saveBtn) { saveBtn.textContent = 'Simpan'; saveBtn.disabled = false; }
+            }
+        }
+
+        // ── Delete ─────────────────────────────────────────────────────────────────
+        function confirmDelete(id) {
+            const a = allAccounts.find(x => x.id === id);
+            if (confirm(`Hapus akun "${a.platform}"?`)) {
+                deleteFromStore('accounts', id, function () {
+                    allAccounts = allAccounts.filter(a => a.id !== id);
+                    selectedId = null;
+                    document.getElementById('detail-view').style.display = 'none';
+                    document.getElementById('empty-right').style.display = 'flex';
+                    renderVault();
+                    renderList();
+                });
+            }
+        }
+
+        // ── Favicon fetch ──────────────────────────────────────────────────────────
+        async function fetchFavicon(url) {
+            if (!url) return null;
+            try {
+                const domain = new URL(url.startsWith('http') ? url : 'https://' + url).hostname;
+                const faviconUrl = `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
+                const res = await fetch(faviconUrl);
+                const blob = await res.blob();
+                return await new Promise(resolve => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result);
+                    reader.readAsDataURL(blob);
+                });
+            } catch { return null; }
+        }
+
+        // ── Color avatar helper ────────────────────────────────────────────────────
+        function colorClass(str) {
+            let hash = 0;
+            for (let c of str) hash = c.charCodeAt(0) + ((hash << 5) - hash);
+            return 'color-' + (Math.abs(hash) % 6);
+        }
+
+        function iconHtml(account, size = 'small') {
+            const cls = size === 'large' ? 'detail-icon' : 'platform-icon';
+            const imgSize = size === 'large' ? 32 : 20;
+            if (account.favicon) {
+                return `<div class="${cls}"><img src="${account.favicon}" width="${imgSize}" height="${imgSize}" onerror="this.parentNode.innerHTML='<span>${escHtml(account.platform.charAt(0).toUpperCase())}</span>'"></div>`;
+            }
+            const letter = account.platform.charAt(0).toUpperCase();
+            return `<div class="${cls} ${colorClass(account.platform)}">${letter}</div>`;
+        }
+
+        // ── Export / Import ────────────────────────────────────────────────────────
+        function exportData() {
+            if (!allAccounts.length && !categories.length) { alert('Tidak ada data.'); return; }
+            const backup = { accounts: allAccounts, categories };
+            const el = document.createElement('a');
+            el.href = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(backup, null, 2));
+            el.download = 'vault-backup-' + new Date().toISOString().split('T')[0] + '.json';
+            el.click();
+        }
+
+        function importData(e) {
+            const file = e.target.files[0]; if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function (ev) {
+                try {
+                    const data = JSON.parse(ev.target.result);
+                    // Support both new format {accounts,categories} and old format (array)
+                    const accs = Array.isArray(data) ? data : (data.accounts || []);
+                    const cats = Array.isArray(data) ? [] : (data.categories || []);
+
+                    const tx = db.transaction(['accounts', 'categories'], 'readwrite');
+                    cats.forEach(item => { const c = { ...item }; delete c.id; tx.objectStore('categories').add(c); });
+                    accs.forEach(item => { const a = { ...item }; delete a.id; tx.objectStore('accounts').add(a); });
+                    tx.oncomplete = function () {
+                        loadAll();
+                        alert(accs.length + ' akun berhasil di-import!');
+                    };
+                } catch (err) { alert('Format tidak valid.'); }
+            };
+            reader.readAsText(file);
+            e.target.value = '';
+        }
+
+        // ── Keyboard shortcuts ─────────────────────────────────────────────────────
+        document.addEventListener('keydown', function (e) {
+            if (e.isComposing) return;
+            const tag = document.activeElement ? document.activeElement.tagName : '';
+
+            if (e.key === 'Escape') {
+                closeModal(); closeEditModal(); closeCatModal(); closeMoveModal(); closeCtxMenu();
+            }
+            if (e.key === 'Enter' && tag !== 'TEXTAREA') {
+                const addOpen = !document.getElementById('modal-overlay').classList.contains('hidden');
+                const editOpen = !document.getElementById('edit-modal-overlay').classList.contains('hidden');
+                const catOpen = !document.getElementById('cat-modal-overlay').classList.contains('hidden');
+                const moveOpen = !document.getElementById('move-modal-overlay').classList.contains('hidden');
+                if (addOpen) { e.preventDefault(); saveAccount(); }
+                else if (editOpen) { e.preventDefault(); saveEdit(); }
+                else if (catOpen) { e.preventDefault(); saveCat(); }
+                else if (moveOpen) { e.preventDefault(); confirmMove(); }
+            }
+        });
+
+        // Close ctx menu on click outside
+        document.addEventListener('click', function (e) {
+            if (!document.getElementById('ctx-menu').classList.contains('hidden')) {
+                closeCtxMenu();
+            }
+        });
+
+        // ── Helpers ────────────────────────────────────────────────────────────────
+        function copyText(text) {
+            navigator.clipboard.writeText(text);
+        }
+
+        function escHtml(s) {
+            return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        function escAttr(s) {
+            return String(s || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        }
+
+        function formatDate(iso) {
+            if (!iso) return '—';
+            return new Date(iso).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+        }
+
+        // ── Boot ──────────────────────────────────────────────────────────────────
+        initDB();
+    </script>
 </body>
+
 </html>
